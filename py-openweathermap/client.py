@@ -57,3 +57,50 @@ class OpenWeatherMapClient:
         self.units = units
         self.timeout = timeout
         self.base_url = BASE_URL
+
+    def _make_request(self, endpoint: str, params: dict) -> dict:
+        """
+        Make HTTP request to OpenWeatherMap API
+
+        Args:
+            endpoint: API endpoint path (e.g., '/weather')
+            params: Query params
+
+        Returns:
+            JSON response as dict
+
+        Raises:
+            AuthenticationError: Invalid API key
+            NotFoundError: Resource not found
+            RateLimitError: Rate limit exceeded
+            PyOpenWeatherMapError: Other API errors
+        """
+        # Add API key to params
+        params['appid'] = self.api_key
+
+        # Construct full URL
+        url = f"{BASE_URL}{endpoint}"
+
+        try:
+            response = requests.get(url=url, params=params, timeout=self.timeout)
+
+            # Handle different status codes
+            if response.status_code == 200:
+                return response.json()
+            elif response.status_code == 401:
+                raise AuthenticationError('Invalid API key')
+            elif response.status_code == 404:
+                raise NotFoundError('Location not found')
+            elif response.status_code == 429:
+                raise RateLimitError('API rate limit exceeded')
+            else:
+                # Try to get the error message
+                try:
+                    error_msg = response.json().get('message', 'Unknown error')
+                except:
+                    error_msg = f"HTTP {response.status_code}"
+                raise PyOpenWeatherMapError(f'API error: {error_msg}')
+        except requests.exceptions.Timeout:
+            raise PyOpenWeatherMapError(f'Request timed out after {self.timeout}s')
+        except requests.exceptions.RequestException as e:
+            raise PyOpenWeatherMapError(f'Request failed: {str(e)}')
