@@ -28,3 +28,12 @@ Homepage = "https://github.com/kimanikevin254/py-openweathermap"
 Repository = "https://github.com/kimanikevin254/py-openweathermap"
 Issues = "https://github.com/kimanikevin254/py-openweathermap/issues"
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--cov=openweathermap",
+    "--cov-report=term-missing",
+]
