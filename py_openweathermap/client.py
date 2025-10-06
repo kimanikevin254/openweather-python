@@ -23,7 +23,7 @@ class OpenWeatherMapClient:
     """Client for interacting with OpenWeatherMapAPI"""
     def __init__(
         self,
-        api_key: Optional[str],
+        api_key: Optional[str] = None,
         units: str = DEFAULT_UNITS,
         timeout: int = DEFAULT_TIMEOUT
     ):
