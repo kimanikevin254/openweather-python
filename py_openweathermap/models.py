@@ -165,15 +165,15 @@ class CurrentWeather:
     visibility: int
     wind: Wind
     clouds: Clouds
-    rain: Optional[Rain] = None
-    snow: Optional[Snow] = None
     dt: int # Time of data calculation (unix timestamp)
     sys: Sys
     timezone: int # Shift in secs from UTC
     id: int # City ID
     name: str # City name
     cod: int # Internal param (response code)
-
+    rain: Optional[Rain] = None
+    snow: Optional[Snow] = None
+    
     def get_timestamp(self) -> datetime:
         """Convert dt to datetime object"""    
         return datetime.fromtimestamp(self.dt)
