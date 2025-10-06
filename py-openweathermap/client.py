@@ -104,3 +104,23 @@ class OpenWeatherMapClient:
             raise PyOpenWeatherMapError(f'Request timed out after {self.timeout}s')
         except requests.exceptions.RequestException as e:
             raise PyOpenWeatherMapError(f'Request failed: {str(e)}')
+        
+    def get_current_weather_by_coords(self, lat: float, lon: float) -> CurrentWeather:
+        """
+        Get current weather by geographic coordinates
+
+        Args:
+            lat: Latitude 
+            lon: Longitude
+
+        Returns:
+            CurrentWeather object with parsed weather data
+        """
+        params = {
+            'lat': lat,
+            'lon': lon,
+            'units': self.units
+        }
+
+        data = self._make_request(CURRENT_WEATHER_ENDPOINT, params)
+        return CurrentWeather.from_api_response(data)
