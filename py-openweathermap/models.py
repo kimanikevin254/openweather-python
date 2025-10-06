@@ -189,4 +189,97 @@ class CurrentWeather:
         """Developer friendly representation"""
         return f"CurrentWeather(name='{self.name}', temp={self.main.temp})"
     
-    
+    @classmethod
+    def from_api_response(cls, data: dict) -> 'CurrentWeather':
+        """
+        Create CurrentWeather object from API JSON response.
+
+        Args:
+            data: Raw JSON response from API
+
+        Returns:
+            CurrentWeather object
+
+        Example:
+            >>> response = client.get_current_weather("London")
+            >>> weather = CurrentWeather.from_api_response(response)
+        """
+        # Parse coordinates
+        coord = Coordinates(
+            lat=data['coord']['lat'],
+            lon=data['coord']['lon']
+        )
+
+        # Parse weather conditions
+        weather_list = [
+            Weather(
+                id=w['id'],
+                main=w['main'],
+                description=w['description'],
+                icon=w['icon']
+            )
+            for w in data['weather']
+        ]
+
+        # Parse main weather data
+        main = Main(
+            temp=data['main']['temp'],
+            feels_like=data['main']['feels_like'],
+            temp_min=data['main']['temp_min'],
+            temp_max=data['main']['temp_max'],
+            pressure=data['main']['pressure'],
+            humidity=data['main']['humidity'],
+            sea_level=data['main']['sea_level'],
+            grnd_level=data['main']['grnd_level']
+        )
+
+        # Parse wind
+        wind = Wind(
+            speed=data['wind']['speed'],
+            deg=data['wind']['deg'],
+            gust=data['wind']['gust']
+        )
+
+        # Parse clouds
+        clouds = Clouds(all=data['clouds']['all'])
+
+        # Parse rain (optional)
+        rain = None
+        if 'rain' in data:
+            rain = Rain(
+                one_h=data['rain'].get('1h')
+            )
+
+        # Parse snow (optional)
+        snow = None
+        if 'snow' in data:
+            snow = Snow(
+                one_h=data['rain'].get('1h')
+            )
+
+        # Parse sys
+        sys = Sys(
+            type=data['sys']['type'],
+            id=data['sys']['id'],
+            country=data['sys']['country'],
+            sunrise=data['sys']['sunrise'],
+            sunset=data['sys']['sunset'],
+        )
+
+        return cls(
+            coord=coord,
+            weather=weather_list,
+            base=data['base'],
+            main=main,
+            visibility=data['visibility'],
+            wind=wind,
+            clouds=clouds,
+            dt=data['dt'],
+            sys=sys,
+            timezone=data['timezone'],
+            id=data['id'],
+            name=data['name'],
+            cod=data['cod'],
+            rain=rain,
+            snow=snow
+        )
