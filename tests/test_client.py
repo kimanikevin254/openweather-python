@@ -25,7 +25,7 @@ class TestClientInitialization:
         with pytest.raises(InvalidParameterError):
             OpenWeatherMapClient(api_key='test_api_key', units='invalid')
 
-    @patch('os.environ', {'OPENWEATHERMAP_API_KEY': 'test_api_key'})
+    @patch.dict('os.environ', {'OPENWEATHERMAP_API_KEY': 'test_api_key'})
     def test_init_from_env_var(self):
         """Test client reads API key from environment"""
         client = OpenWeatherMapClient()
