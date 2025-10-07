@@ -14,7 +14,7 @@ A clean, Pythponic wrapper for OpenWeatherMap API.
 ## Installation
 
 ```bash
-pip install -i https://test.pypi.org/simple/ openweather-python # From TestPyPi
+pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple openweather-python # From TestPyPi
 
 # pip install openweather-python # Once uploaded to PyPi
 ```
