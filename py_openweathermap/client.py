@@ -15,7 +15,8 @@ from .exceptions import (
     NotFoundError,
     RateLimitError,
     InvalidParameterError,
-    PyOpenWeatherMapError
+    PyOpenWeatherMapError,
+    WrongLatitudeOrLongitude
 )
 from .models import CurrentWeather
 
@@ -87,6 +88,9 @@ class OpenWeatherMapClient:
             # Handle different status codes
             if response.status_code == 200:
                 return response.json()
+            elif response.status_code == 400:
+                error_msg = response.json().get('message', 'wrong latitude or longitude')
+                raise WrongLatitudeOrLongitude(error_msg)
             elif response.status_code == 401:
                 raise AuthenticationError('Invalid API key')
             elif response.status_code == 404:
