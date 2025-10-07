@@ -6,8 +6,8 @@ Before running:
 2. Set it as env var: export OPENWEATHERMAP_API_KEY='your-key'
     OR pass it directly to the client
 """
-from py_openweathermap import OpenWeatherMapClient
-from py_openweathermap.exceptions import (
+from openweather_python import OpenWeatherMapClient
+from openweather_python.exceptions import (
     AuthenticationError, WrongCoords, RateLimitError, PyOpenWeatherMapError
 )
 

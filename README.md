@@ -1,4 +1,4 @@
-# py-openweathermap
+# openweather-python
 
 A clean, Pythponic wrapper for OpenWeatherMap API.
 
@@ -14,21 +14,23 @@ A clean, Pythponic wrapper for OpenWeatherMap API.
 ## Installation
 
 ```bash
-pip install py-openweathermap
+pip install -i https://test.pypi.org/simple/ openweather-python # From TestPyPi
+
+# pip install openweather-python # Once uploaded to PyPi
 ```
 
 Or install from source:
 
 ```bash
-git clone https://github.com/kimanikevin254/py-openweathermap.git
-cd py-openweathermap
+git clone https://github.com/kimanikevin254/openweather-python.git
+cd openweather_python
 pip install -e .
 ```
 
 ## Quick Start
 
 ```py
-from py_openweathermap import OpenWeatherMapClient
+from openweather_python import OpenWeatherMapClient
 
 # Initialize client (reads from OPENWEATHERMAP_API_KEY env var)
 client = OpenWeatherMapClient()

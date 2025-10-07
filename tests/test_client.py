@@ -1,12 +1,12 @@
 import pytest
 import requests
 from unittest.mock import Mock, patch
-from py_openweathermap import OpenWeatherMapClient, CurrentWeather
-from py_openweathermap.exceptions import (
+from openweather_python import OpenWeatherMapClient, CurrentWeather
+from openweather_python.exceptions import (
     AuthenticationError, InvalidParameterError, WrongCoords, 
     RateLimitError, PyOpenWeatherMapError
 )
-from py_openweathermap.constants import CURRENT_WEATHER_ENDPOINT, BASE_URL
+from openweather_python.constants import CURRENT_WEATHER_ENDPOINT, BASE_URL
 
 class TestClientInitialization:
     """Tests for client initialization"""
@@ -50,7 +50,7 @@ class TestMakeResult:
         mock_resp.json.return_value = {'test': 'data'}
         return mock_resp
     
-    @patch('py_openweathermap.client.requests.get')
+    @patch('openweather_python.client.requests.get')
     def test_make_request_success(self, mock_get, client, mock_success_response):
         """Test successful API request"""
         mock_get.return_value = mock_success_response
@@ -66,7 +66,7 @@ class TestMakeResult:
         
         assert result == {'test': 'data'}
 
-    @patch('py_openweathermap.client.requests.get')
+    @patch('openweather_python.client.requests.get')
     def test_make_request_adds_api_key(self, mock_get, client, mock_success_response):
         """Test API key is automatically added to params"""
         mock_get.return_value = mock_success_response
@@ -77,7 +77,7 @@ class TestMakeResult:
         assert 'appid' in call_params
         assert call_params['appid'] == 'test-api-key'
 
-    @patch('py_openweathermap.client.requests.get')
+    @patch('openweather_python.client.requests.get')
     def test_make_request_uses_custom_timeout(self, mock_get, mock_success_response):
         """Test custom timeout is used"""
         client = OpenWeatherMapClient(api_key='test_api_key', timeout=25)
@@ -88,7 +88,7 @@ class TestMakeResult:
         timeout = mock_get.call_args[1]['timeout']
         assert timeout == 25
 
-    @patch('py_openweathermap.client.requests.get')
+    @patch('openweather_python.client.requests.get')
     def test_make_request_401_raises_authentication_error(self, mock_get, client):
         """Test 401 status code raise AuthenticationError"""
         mock_resp = Mock()
@@ -98,7 +98,7 @@ class TestMakeResult:
         with pytest.raises(AuthenticationError, match='Invalid API key'):
             client._make_request('/test', {})
 
-    @patch('py_openweathermap.client.requests.get')
+    @patch('openweather_python.client.requests.get')
     def test_make_request_400_raises_wrong_coords_error(self, mock_get, client):
         "Test 400 status raise WrongCoords"
         mock_resp = Mock()
@@ -109,7 +109,7 @@ class TestMakeResult:
         with pytest.raises(WrongCoords, match='wrong'):
             client._make_request('/test', {})
 
-    @patch('py_openweathermap.client.requests.get')
+    @patch('openweather_python.client.requests.get')
     def test_make_request_429_raises_rate_limit_error(self, mock_get, client):
         "Test 429 status raises RateLimitError"
         mock_resp = Mock()
@@ -119,7 +119,7 @@ class TestMakeResult:
         with pytest.raises(RateLimitError, match='API rate limit exceeded'):
             client._make_request('/test', {})
 
-    @patch('py_openweathermap.client.requests.get')
+    @patch('openweather_python.client.requests.get')
     def test_make_request_500_raises_api_error(self, mock_get, client):
         """Test 5xx status code raises PyOpenWeatherMapError"""
         mock_resp = Mock()
@@ -129,7 +129,7 @@ class TestMakeResult:
         with pytest.raises(PyOpenWeatherMapError, match='API error'):
             client._make_request('/test', {})
 
-    @patch('py_openweathermap.client.requests.get')
+    @patch('openweather_python.client.requests.get')
     def test_make_request_timeout_raises_error(self, mock_get, client):
         """Test request timeout is handled"""
         mock_get.side_effect = requests.exceptions.Timeout()
@@ -137,7 +137,7 @@ class TestMakeResult:
         with pytest.raises(PyOpenWeatherMapError, match='Request timed out'):
             client._make_request('/test', {})
 
-    @patch('py_openweathermap.client.requests.get')
+    @patch('openweather_python.client.requests.get')
     def test_make_request_generic_request_exception(self, mock_get, client):
         """Test generic request exceptions are handled"""
         mock_get.side_effect = requests.exceptions.RequestException('Unknown error')
@@ -193,7 +193,7 @@ class TestCurrentWeatherByCoords:
             "cod": 200
         }
     
-    @patch('py_openweathermap.client.OpenWeatherMapClient._make_request')
+    @patch('openweather_python.client.OpenWeatherMapClient._make_request')
     def test_get_current_weather_by_coords(self, mock_make_request, mock_api_response):
         """Test successful weather retrieval by coordinates"""
         mock_make_request.return_value = mock_api_response

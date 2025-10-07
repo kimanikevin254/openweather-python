@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "py_openweathermap"
-version = "0.1.0"
+name = "openweather_python"
+version = "0.1.1"
 description = "Python wrapper for OpenWeatherMap API"
 authors = [
     {name = "Kevin Kimani", email = "kimanikevin254@gmail.com"}
@@ -38,9 +38,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/kimanikevin254/py-openweathermap"
-Repository = "https://github.com/kimanikevin254/py-openweathermap"
-Issues = "https://github.com/kimanikevin254/py-openweathermap/issues"
+Homepage = "https://github.com/kimanikevin254/openweather-python.git"
+Repository = "https://github.com/kimanikevin254/openweather-python.git"
+Issues = "https://github.com/kimanikevin254/openweather-python.git/issues"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -48,6 +48,6 @@ python_files = ["test_*.py"]
 python_functions = ["test_*"]
 addopts = [
     "--verbose",
-    "--cov=py_openweathermap",
+    "--cov=openweather_python",
     "--cov-report=term-missing",
 ]
