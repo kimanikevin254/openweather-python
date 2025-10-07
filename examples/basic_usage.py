@@ -8,7 +8,7 @@ Before running:
 """
 from py_openweathermap import OpenWeatherMapClient
 from py_openweathermap.exceptions import (
-    AuthenticationError, WrongLatitudeOrLongitude, RateLimitError, PyOpenWeatherMapError
+    AuthenticationError, WrongCoords, RateLimitError, PyOpenWeatherMapError
 )
 
 def example_basic_usage():
@@ -107,8 +107,8 @@ def example_error_handling():
     print("\nTrying invalid coordinates...")
     try:
         weather = client.get_current_weather_by_coords(lat=999, lon=999)
-    except WrongLatitudeOrLongitude as e:
-        print(f"Caught WrongLatitudeOrLongitude: {e}")
+    except WrongCoords as e:
+        print(f"Caught WrongCoords: {e}")
     
     # Test with invalid API key
     print("\nTrying invalid API key...")

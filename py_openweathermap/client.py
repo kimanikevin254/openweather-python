@@ -12,11 +12,10 @@ from .constants import (
 )
 from .exceptions import (
     AuthenticationError,
-    NotFoundError,
     RateLimitError,
     InvalidParameterError,
     PyOpenWeatherMapError,
-    WrongLatitudeOrLongitude
+    WrongCoords
 )
 from .models import CurrentWeather
 
@@ -72,7 +71,7 @@ class OpenWeatherMapClient:
 
         Raises:
             AuthenticationError: Invalid API key
-            NotFoundError: Resource not found
+            WrongCoords: Invalid coordinates
             RateLimitError: Rate limit exceeded
             PyOpenWeatherMapError: Other API errors
         """
@@ -90,11 +89,9 @@ class OpenWeatherMapClient:
                 return response.json()
             elif response.status_code == 400:
                 error_msg = response.json().get('message', 'wrong latitude or longitude')
-                raise WrongLatitudeOrLongitude(error_msg)
+                raise WrongCoords(error_msg)
             elif response.status_code == 401:
                 raise AuthenticationError('Invalid API key')
-            elif response.status_code == 404:
-                raise NotFoundError('Location not found')
             elif response.status_code == 429:
                 raise RateLimitError('API rate limit exceeded')
             else:

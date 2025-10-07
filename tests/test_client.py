@@ -3,7 +3,7 @@ import requests
 from unittest.mock import Mock, patch
 from py_openweathermap import OpenWeatherMapClient, CurrentWeather
 from py_openweathermap.exceptions import (
-    AuthenticationError, InvalidParameterError, NotFoundError, 
+    AuthenticationError, InvalidParameterError, WrongCoords, 
     RateLimitError, PyOpenWeatherMapError
 )
 from py_openweathermap.constants import CURRENT_WEATHER_ENDPOINT, BASE_URL
@@ -99,13 +99,14 @@ class TestMakeResult:
             client._make_request('/test', {})
 
     @patch('py_openweathermap.client.requests.get')
-    def test_make_request_404_raises_not_found_error(self, mock_get, client):
-        "Test 404 status raise NotFoundError"
+    def test_make_request_400_raises_wrong_coords_error(self, mock_get, client):
+        "Test 400 status raise WrongCoords"
         mock_resp = Mock()
-        mock_resp.status_code = 404
+        mock_resp.status_code = 400
+        mock_resp.json.return_value = {"cod":"400","message":"wrong longitude"}
         mock_get.return_value = mock_resp
 
-        with pytest.raises(NotFoundError, match='Location not found'):
+        with pytest.raises(WrongCoords, match='wrong'):
             client._make_request('/test', {})
 
     @patch('py_openweathermap.client.requests.get')

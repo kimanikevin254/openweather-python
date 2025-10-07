@@ -16,7 +16,7 @@ from .models import (
 )
 from .exceptions import (
     PyOpenWeatherMapError, AuthenticationError, APIError,
-    NotFoundError, RateLimitError, InvalidParameterError,
+    WrongCoords, RateLimitError, InvalidParameterError,
 )
 
 __all__ = [
@@ -29,5 +29,5 @@ __all__ = [
 
     # Exceptions
     PyOpenWeatherMapError, AuthenticationError, APIError,
-    NotFoundError, RateLimitError, InvalidParameterError
+    WrongCoords, RateLimitError, InvalidParameterError
 ]
