@@ -17,6 +17,7 @@ class TestClientInitialization:
         assert client.units == 'metric'
         assert client.timeout == 10
 
+    @patch.dict('os.environ', {}, clear=True)
     def test_init_without_api_key_raises_errors(self):
         """Test client raises error when no API key is provided"""
         with pytest.raises(AuthenticationError):
