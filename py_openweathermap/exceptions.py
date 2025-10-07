@@ -13,6 +13,10 @@ class AuthenticationError(PyOpenWeatherMapError):
     """Raised when API key is invalid or missing"""
     pass
 
+class WrongLatitudeOrLongitude(PyOpenWeatherMapError):
+    """Raised when a wrong latitude or longitude is used"""
+    pass
+
 class NotFoundError(PyOpenWeatherMapError):
     """
     Raised when requested resource is not found
