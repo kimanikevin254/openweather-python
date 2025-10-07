@@ -130,14 +130,10 @@ class Sys:
     System information
 
     Attrs:
-      type: Internal parameter
-      id: Internal parameter
       country: Country code (GB, JP etc.)
       sunrise: Sunrise time, unix, UTC
       sunset: Sunset time, unix, UTC
     """
-    type: int
-    id: int
     country: str
     sunrise: int
     sunset: int
@@ -259,8 +255,6 @@ class CurrentWeather:
 
         # Parse sys
         sys = Sys(
-            type=data['sys']['type'],
-            id=data['sys']['id'],
             country=data['sys']['country'],
             sunrise=data['sys']['sunrise'],
             sunset=data['sys']['sunset'],
